@@ -159,7 +159,7 @@ img {
     margin: 0 0 14px;
     color: var(--orange);
     text-transform: uppercase;
-    letter-spacing: .16em;
+    letter-spacing: 0em;
     font-weight: 900;
     font-size: .75rem
 }
