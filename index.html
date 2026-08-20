@@ -135,7 +135,453 @@
         </div>
       </div>
     </section>
+    <!-- Partners and Impact Sections -->
+    <style>
+      .touq-sections {
+        --navy: #07396a;
+        --blue: #0868cc;
+        --card-background: #f6f7f9;
+        --container-width: 1390px;
 
+        font-family: Arial, sans-serif;
+      }
+
+      .touq-sections *,
+      .touq-sections *::before,
+      .touq-sections *::after {
+        box-sizing: border-box;
+      }
+
+      .touq-container {
+        width: min(var(--container-width), 100%);
+        margin-inline: auto;
+      }
+
+      /* ================= Partners ================= */
+
+      .touq-partners {
+        overflow: hidden;
+        padding-block: clamp(70px, 7vw, 110px);
+        padding-inline: clamp(30px, 5vw, 80px);
+        color: #070707;
+        background: var(--orange);
+      }
+
+      .touq-partners-title {
+        margin: 0 0 50px;
+        font-size: clamp(2rem, 3vw, 3rem);
+        line-height: 1.15;
+      }
+
+      .touq-marquee {
+        --gap: 14px;
+        --duration: 32s;
+
+        width: 100%;
+        overflow: hidden;
+        margin-top: 18px;
+
+        /* No side shadow or fading effect */
+        mask-image: none;
+        -webkit-mask-image: none;
+      }
+
+      .touq-track {
+        display: flex;
+        width: max-content;
+        animation: touq-scroll-left var(--duration) linear infinite;
+        will-change: transform;
+      }
+
+      .touq-marquee[data-direction="right"] .touq-track {
+        animation-name: touq-scroll-right;
+      }
+
+      /* Stop the selected row when hovering */
+      .touq-marquee:hover .touq-track {
+        animation-play-state: paused;
+      }
+
+      .touq-logo-group {
+        display: flex;
+        flex-shrink: 0;
+        gap: var(--gap);
+        padding-right: var(--gap);
+      }
+
+      .touq-logo-card {
+        display: flex;
+        width: clamp(165px, 13vw, 210px);
+        height: 76px;
+        flex: 0 0 auto;
+        align-items: center;
+        justify-content: center;
+        padding: 12px 20px;
+        overflow: hidden;
+        border: 1px solid #d9dee5;
+        border-radius: 8px;
+        background: #fff;
+      }
+
+      .touq-logo-card img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+
+      @keyframes touq-scroll-left {
+        from {
+          transform: translateX(0);
+        }
+
+        to {
+          transform: translateX(-50%);
+        }
+      }
+
+      @keyframes touq-scroll-right {
+        from {
+          transform: translateX(-50%);
+        }
+
+        to {
+          transform: translateX(0);
+        }
+      }
+
+      /* ================= Impact ================= */
+
+      .touq-impact {
+        padding: clamp(64px, 7vw, 100px) 24px;
+        background: #fff;
+      }
+
+      .touq-impact-title {
+        margin: 0 0 38px;
+        color: var(--black);
+        font-size: clamp(2rem, 3vw, 3rem);
+        line-height: 1.15;
+        text-align: center;
+      }
+
+      .touq-stats {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 24px;
+        max-width: 1120px;
+        margin-inline: auto;
+      }
+
+      .touq-stat-card {
+        min-height: 190px;
+        padding: 36px 20px 28px;
+        border-radius: 18px;
+        background: var(--card-background);
+        text-align: center;
+      }
+
+      .touq-stat-number {
+        display: flex;
+        align-items: baseline;
+        justify-content: center;
+        color: var(--orange);
+        font-size: clamp(3rem, 5vw, 4.5rem);
+        font-weight: 800;
+        letter-spacing: -0.06em;
+        line-height: 1;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .touq-stat-card p {
+        margin: 18px 0 0;
+        color: #071d38;
+        font-size: clamp(0.9rem, 1.3vw, 1.15rem);
+        text-transform: uppercase;
+      }
+
+      /* ================= Responsive ================= */
+
+      @media (max-width: 720px) {
+        .touq-partners {
+          padding-block: 60px;
+          padding-inline: 16px;
+        }
+
+        .touq-partners-title {
+          margin-bottom: 34px;
+        }
+
+        .touq-logo-card {
+          width: 150px;
+          height: 66px;
+          padding: 10px 16px;
+        }
+
+        .touq-stats {
+          grid-template-columns: 1fr;
+        }
+
+        .touq-stat-card {
+          min-height: 160px;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .touq-track {
+          animation-play-state: paused;
+        }
+      }
+    </style>
+
+    <div class="touq-sections">
+      <!-- Partners section -->
+      <section class="touq-partners">
+        <div class="touq-container">
+          <h2 class="touq-partners-title">
+            Our Partners and Clients
+          </h2>
+
+          <!-- First row: moving left -->
+          <div class="touq-marquee" data-direction="left">
+            <div class="touq-track">
+              <div class="touq-logo-group">
+                <div class="touq-logo-card">
+                  <img src="https://touq.ae/wp-content/uploads/2025/10/logo01.png" alt="Partner logo 1">
+                </div>
+
+                <div class="touq-logo-card">
+                  <img src="https://touq.ae/wp-content/uploads/2025/10/logo02.png" alt="Partner logo 2">
+                </div>
+
+                <div class="touq-logo-card">
+                  <img src="https://touq.ae/wp-content/uploads/2025/10/logo03.png" alt="Partner logo 3">
+                </div>
+
+                <div class="touq-logo-card">
+                  <img src="https://touq.ae/wp-content/uploads/2025/10/logo04.png" alt="Partner logo 4">
+                </div>
+
+                <div class="touq-logo-card">
+                  <img src="https://touq.ae/wp-content/uploads/2025/10/logo05.png" alt="Partner logo 5">
+                </div>
+
+                <div class="touq-logo-card">
+                  <img src="https://touq.ae/wp-content/uploads/2025/10/logo06.png" alt="Partner logo 6">
+                </div>
+
+                <div class="touq-logo-card">
+                  <img src="https://touq.ae/wp-content/uploads/2025/10/logo07.png" alt="Partner logo 7">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Second row: moving right -->
+          <div class="touq-marquee" data-direction="right">
+            <div class="touq-track">
+              <div class="touq-logo-group">
+                <div class="touq-logo-card">
+                  <img src="https://touq.ae/wp-content/uploads/2025/10/logo08.png" alt="Partner logo 8">
+                </div>
+
+                <div class="touq-logo-card">
+                  <img src="https://touq.ae/wp-content/uploads/2025/10/logo09.png" alt="Partner logo 9">
+                </div>
+
+                <div class="touq-logo-card">
+                  <img src="https://touq.ae/wp-content/uploads/2025/10/logo10.png" alt="Partner logo 10">
+                </div>
+
+                <div class="touq-logo-card">
+                  <img src="https://touq.ae/wp-content/uploads/2025/10/logo11.png" alt="Partner logo 11">
+                </div>
+
+                <div class="touq-logo-card">
+                  <img src="https://touq.ae/wp-content/uploads/2025/10/logo12.png" alt="Partner logo 12">
+                </div>
+
+                <div class="touq-logo-card">
+                  <img src="https://touq.ae/wp-content/uploads/2025/10/logo13.png" alt="Partner logo 13">
+                </div>
+
+                <div class="touq-logo-card">
+                  <img src="https://touq.ae/wp-content/uploads/2025/10/logo14.png" alt="Partner logo 14">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Third row: moving left -->
+          <div class="touq-marquee" data-direction="left">
+            <div class="touq-track">
+              <div class="touq-logo-group">
+                <div class="touq-logo-card">
+                  <img src="https://touq.ae/wp-content/uploads/2025/10/logo15.png" alt="Partner logo 15">
+                </div>
+
+                <div class="touq-logo-card">
+                  <img src="https://touq.ae/wp-content/uploads/2025/10/logo06.png" alt="Partner logo 6">
+                </div>
+
+                <div class="touq-logo-card">
+                  <img src="https://touq.ae/wp-content/uploads/2025/10/logo11.png" alt="Partner logo 11">
+                </div>
+
+                <div class="touq-logo-card">
+                  <img src="https://touq.ae/wp-content/uploads/2025/10/logo04.png" alt="Partner logo 4">
+                </div>
+
+                <div class="touq-logo-card">
+                  <img src="https://touq.ae/wp-content/uploads/2025/10/logo13.png" alt="Partner logo 13">
+                </div>
+
+                <div class="touq-logo-card">
+                  <img src="https://touq.ae/wp-content/uploads/2025/10/logo02.png" alt="Partner logo 2">
+                </div>
+
+                <div class="touq-logo-card">
+                  <img src="https://touq.ae/wp-content/uploads/2025/10/logo09.png" alt="Partner logo 9">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Impact section -->
+      <section class="touq-impact">
+        <div class="touq-container">
+          <h2 class="touq-impact-title">Our Impact</h2>
+
+          <div class="touq-stats">
+            <div class="touq-stat-card">
+              <div class="touq-stat-number">
+                <span class="touq-counter" data-target="95" data-duration="1800">
+                  0
+                </span>
+                <span>M</span>
+              </div>
+
+              <p>Turnover</p>
+            </div>
+
+            <div class="touq-stat-card">
+              <div class="touq-stat-number">
+                <span class="touq-counter" data-target="500" data-duration="1800">
+                  0
+                </span>
+                <span>+</span>
+              </div>
+
+              <p>Customers</p>
+            </div>
+
+            <div class="touq-stat-card">
+              <div class="touq-stat-number">
+                <span class="touq-counter" data-target="6480" data-duration="1800">
+                  0
+                </span>
+                <span>+</span>
+              </div>
+
+              <p>Projects Completed</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      (function () {
+        /*
+         * Duplicate each logo row to create
+         * a seamless infinite animation.
+         */
+        document.querySelectorAll(".touq-marquee").forEach(function (marquee) {
+          const track = marquee.querySelector(".touq-track");
+          const group = track.querySelector(".touq-logo-group");
+
+          if (!track || !group || track.children.length > 1) {
+            return;
+          }
+
+          const copy = group.cloneNode(true);
+
+          copy.setAttribute("aria-hidden", "true");
+
+          copy.querySelectorAll("img").forEach(function (image) {
+            image.alt = "";
+          });
+
+          track.appendChild(copy);
+        });
+
+        /*
+         * Animate a number from zero
+         * to its data-target value.
+         */
+        function animateTouqCounter(counter) {
+          if (counter.dataset.animated === "true") {
+            return;
+          }
+
+          counter.dataset.animated = "true";
+
+          const target = Number(counter.dataset.target);
+          const duration = Number(counter.dataset.duration || 1800);
+          const formatter = new Intl.NumberFormat("en-US");
+          const startTime = performance.now();
+
+          function update(currentTime) {
+            const elapsedTime = currentTime - startTime;
+            const progress = Math.min(elapsedTime / duration, 1);
+
+            /* Smooth easing */
+            const easedProgress = 1 - Math.pow(1 - progress, 3);
+            const currentNumber = Math.round(target * easedProgress);
+
+            counter.textContent = formatter.format(currentNumber);
+
+            if (progress < 1) {
+              requestAnimationFrame(update);
+            }
+          }
+
+          requestAnimationFrame(update);
+        }
+
+        const counters = document.querySelectorAll(".touq-counter");
+
+        /*
+         * Start counting when the cards
+         * become visible on the screen.
+         */
+        if ("IntersectionObserver" in window) {
+          const counterObserver = new IntersectionObserver(
+            function (entries, observer) {
+              entries.forEach(function (entry) {
+                if (!entry.isIntersecting) {
+                  return;
+                }
+
+                animateTouqCounter(entry.target);
+                observer.unobserve(entry.target);
+              });
+            },
+            {
+              threshold: 0.45
+            }
+          );
+
+          counters.forEach(function (counter) {
+            counterObserver.observe(counter);
+          });
+        } else {
+          counters.forEach(animateTouqCounter);
+        }
+      })();
+    </script>
     <section class="dark-section" id="why-touq">
       <div class="container split">
         <div>
