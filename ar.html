@@ -9,6 +9,151 @@
   <title>الخرسانة الجاهزة في أبوظبي | توق للخرسانة</title>
   <link rel="preconnect" href="https://touqconcrete.ae">
   <link rel="stylesheet" href="styles.css">
+  <script>
+    const META_PIXEL_ID = '1042400495332889';
+    const META_CAPI_TOKEN = 'EABAHvmt56jABSTa1HtnvgYTL39ZBt7afNY3J4hsNOKkKkX7rre68jSVMz1ox0CAFdH0ilKXms5rPVMtLReZCGqdnsmbe8g93iXkBGM8ZALpv9IZB3fdt21cyOzQhwg6tEKV2axenoVWm0Ajuap91e4yuCZBjGjhTg53h8XqWcEga38tbkMiZB3xLnFDkVLp51tnAZDZD';
+
+    // Generate a unique Event ID for browser/server deduplication
+    function generateEventId() {
+      return 'evt_' + Date.now() + '_' + Math.random().toString(36).substring(2, 10);
+    }
+
+    // SHA-256 hashing for CAPI user data
+    async function sha256(value) {
+      const encoder = new TextEncoder();
+      const data = encoder.encode(value.trim().toLowerCase());
+      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+
+      return Array.from(new Uint8Array(hashBuffer))
+        .map(b => b.toString(16).padStart(2, '0'))
+        .join('');
+    }
+
+    // Send event to Meta CAPI
+    async function sendCAPIEvent(eventName, eventId, userData = {}, customData = {}) {
+
+      const hashedUserData = {};
+
+      if (userData.email) {
+        hashedUserData.em = [await sha256(userData.email)];
+      }
+
+      if (userData.phone) {
+        // Remove spaces, +, brackets, hyphens, etc.
+        const normalizedPhone = userData.phone.replace(/\D/g, '');
+
+        if (normalizedPhone) {
+          hashedUserData.ph = [await sha256(normalizedPhone)];
+        }
+      }
+
+      hashedUserData.client_user_agent = navigator.userAgent;
+
+      try {
+        const response = await fetch(
+          `https://graph.facebook.com/v24.0/${META_PIXEL_ID}/events`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              data: [
+                {
+                  event_name: eventName,
+                  event_time: Math.floor(Date.now() / 1000),
+                  event_id: eventId,
+                  action_source: 'website',
+                  event_source_url: window.location.href,
+                  user_data: hashedUserData,
+                  custom_data: customData
+                }
+              ],
+              access_token: META_CAPI_TOKEN
+            })
+          }
+        );
+
+        const result = await response.json();
+
+        console.log('Meta CAPI:', result);
+
+        return result;
+
+      } catch (error) {
+        console.error('Meta CAPI Error:', error);
+        return null;
+      }
+    }
+
+
+    // ==========================
+    // Meta Pixel
+    // ==========================
+
+    !function (f, b, e, v, n, t, s) {
+      if (f.fbq) return;
+
+      n = f.fbq = function () {
+        n.callMethod ?
+          n.callMethod.apply(n, arguments) :
+          n.queue.push(arguments)
+      };
+
+      if (!f._fbq) f._fbq = n;
+
+      n.push = n;
+      n.loaded = !0;
+      n.version = '2.0';
+      n.queue = [];
+
+      t = b.createElement(e);
+      t.async = !0;
+      t.src = v;
+
+      s = b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t, s);
+
+    }(
+      window,
+      document,
+      'script',
+      'https://connect.facebook.net/en_US/fbevents.js'
+    );
+
+
+    fbq('init', META_PIXEL_ID);
+
+
+    // ==========================
+    // PAGE VIEW
+    // ==========================
+
+    const pageViewEventId = generateEventId();
+
+    // Browser Pixel
+    fbq(
+      'track',
+      'PageView',
+      {},
+      {
+        eventID: pageViewEventId
+      }
+    );
+
+    // CAPI
+    sendCAPIEvent(
+      'PageView',
+      pageViewEventId
+    );
+
+  </script>
+
+  <noscript>
+    <img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=1135850054161026&ev=PageView&noscript=1" />
+  </noscript>
+  <!-- End Meta Pixel Code -->
 </head>
 
 <body>
@@ -83,7 +228,10 @@
               </select></div>
             <label class="consent"><input type="checkbox" name="consent" required><span>أوافق على تواصل توق للخرسانة معي
                 بشأن هذا الطلب وأقر بالاطلاع على <a href="privacy-ar.html">سياسة الخصوصية</a>.</span></label><button
-              class="button form-submit" type="submit">إرسال طلب عرض السعر <span aria-hidden="true">←</span></button>
+              class="button submit-button" type="submit">
+              إرسال طلب عرض السعر
+              <span aria-hidden="true">→</span>
+            </button>
             <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
             <p class="form-note">تُستخدم بياناتك فقط للرد على استفسارك.</p>
           </form>
@@ -177,6 +325,91 @@
     </div>
   </footer><a class="mobile-cta" href="#quote">اطلب عرض سعر</a>
   <script src="script.js" defer></script>
+  <script>
+
+    const leadForm = document.getElementById('lead-form');
+
+    if (leadForm) {
+
+      leadForm.addEventListener('submit', async function (e) {
+
+        e.preventDefault();
+
+        const submitButton = leadForm.querySelector('.submit-button');
+
+        if (submitButton) {
+          submitButton.disabled = true;
+          submitButton.innerHTML = 'Sending...';
+        }
+
+        const name = document.getElementById('name')?.value || '';
+        const email = document.getElementById('email')?.value || '';
+        const phone = document.getElementById('mobile')?.value || '';
+
+        const propertyType =
+          document.getElementById('property-type')?.value || '';
+
+        const service =
+          document.getElementById('service')?.value || '';
+
+        const location =
+          document.getElementById('project-location')?.value || '';
+
+
+        // Unique ID for Pixel + CAPI deduplication
+        const leadEventId = generateEventId();
+
+
+        // ==========================
+        // Meta Pixel - Lead
+        // ==========================
+
+        fbq(
+          'track',
+          'Lead',
+          {
+            content_name: 'TouqPS Maintenance Lead',
+            content_category: propertyType,
+            service: service,
+            location: location
+          },
+          {
+            eventID: leadEventId
+          }
+        );
+
+
+        // ==========================
+        // Meta CAPI - Lead
+        // ==========================
+
+        await sendCAPIEvent(
+          'Lead',
+          leadEventId,
+          {
+            email: email,
+            phone: phone
+          },
+          {
+            content_name: 'TouqPS Maintenance Lead',
+            content_category: propertyType,
+            service: service,
+            location: location
+          }
+        );
+
+
+        // ==========================
+        // Submit Formspree
+        // ==========================
+
+        leadForm.submit();
+
+      });
+
+    }
+
+  </script>
 </body>
 
 </html>
